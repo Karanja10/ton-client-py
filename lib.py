@@ -410,7 +410,7 @@ class TonWallet(object):
         deploy_address = self.ton._request("contracts.deploy.address", {
             "abi": contract.abi,
             'imageBase64': contract.tvm,
-            "keyPair": self.keypair()
+            "keyPair": self.keypair
         })["result"]
 
         return self.ton._request("contracts.run", {
@@ -418,14 +418,14 @@ class TonWallet(object):
             "abi": contract.abi,
             "functionName": functionName,
             "input": inputData,
-            "keyPair": self.keypair()
+            "keyPair": self.keypair
         })
 
     def address(self):
         return self.ton._request("contracts.deploy.address", {
             "abi": contracts.wallet.abi,
             'imageBase64': contracts.wallet.tvm,
-            "keyPair": self.keypair()
+            "keyPair": self.keypair
         })["result"]
 
     def send(self, dest, value, bounce=True):
@@ -439,12 +439,12 @@ class TonWallet(object):
                 "value": value,
                 "bounce": bounce
             },
-            "keyPair": self.keypair()
+            "keyPair": self.keypair
         })
 
     @property
     def keypair(self):
-        return dict(public=self.public, secret=self.secret)
+        return {"public": self.public, "secret": self.secret}
 
     def __str__(self):
         return self.address()
