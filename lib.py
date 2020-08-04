@@ -184,7 +184,6 @@ class TonClient(object):
 
     def scrypt(self, data, logn, r, p, dk_len, salt=None, hex_salt=None, base64_salt=None,
                password=None, hex_password=None, base64_password=None, ):
-        # TODO: не работает
         if password:
             password = {"text": password}
         elif hex_password:
@@ -393,7 +392,7 @@ class TonWallet(object):
             'abi': contracts.wallet.abi,
             'constructorParams': {},
             'imageBase64': contracts.wallet.tvm,
-            'keyPair': self.__dict__(),
+            'keyPair': self.keypair(),
             'workchainId': workchainId
         })
 
@@ -402,7 +401,7 @@ class TonWallet(object):
             'abi': contract.abi,
             'constructorParams': {},
             'imageBase64': contract.tvm,
-            'keyPair': self.__dict__(),
+            'keyPair': self.keypair(),
             'workchainId': workchainId
         })
 
@@ -411,7 +410,7 @@ class TonWallet(object):
         deploy_address = self.ton._request("contracts.deploy.address", {
             "abi": contract.abi,
             'imageBase64': contract.tvm,
-            "keyPair": self.__dict__()
+            "keyPair": self.keypair()
         })["result"]
 
         return self.ton._request("contracts.run", {
@@ -419,14 +418,14 @@ class TonWallet(object):
             "abi": contract.abi,
             "functionName": functionName,
             "input": inputData,
-            "keyPair": self.__dict__()
+            "keyPair": self.keypair()
         })
 
     def address(self):
         return self.ton._request("contracts.deploy.address", {
             "abi": contracts.wallet.abi,
             'imageBase64': contracts.wallet.tvm,
-            "keyPair": self.__dict__()
+            "keyPair": self.keypair()
         })["result"]
 
     def send(self, dest, value, bounce=True):
@@ -440,7 +439,7 @@ class TonWallet(object):
                 "value": value,
                 "bounce": bounce
             },
-            "keyPair": self.__dict__()
+            "keyPair": self.keypair()
         })
 
     @property
