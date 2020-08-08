@@ -4,6 +4,7 @@ import json
 import logging
 import platform
 from typing import Dict
+from distutils.sysconfig import get_config_var
 
 from tonsdk.ton_types import InteropString, InteropJsonResponse
 
@@ -12,7 +13,7 @@ logger = logging.getLogger('ton')
 BASE_DIR = os.path.dirname(os.path.realpath(__file__))
 LIB_VERSION = '0.25.3'
 LIB_DIR = os.path.join(BASE_DIR, 'bin')
-LIB_FILENAME = f'ton-rust-client-{LIB_VERSION}'
+LIB_FILENAME = f'ton-rust-client{get_config_var("EXT_SUFFIX")}'
 
 DEVNET_BASE_URL = 'net.ton.dev'
 MAINNET_BASE_URL = 'main.ton.dev'
@@ -39,7 +40,7 @@ def _get_lib_path():
     if plt not in lib_ext_dict:
         raise RuntimeError(
             f'No library for current platform "{plt.capitalize()}"')
-    return os.path.join(LIB_DIR, f'{LIB_FILENAME}.{lib_ext_dict[plt]}')
+    return os.path.join(LIB_DIR, f'{LIB_FILENAME}')
 
 
 _LIB = ctypes.cdll.LoadLibrary(_get_lib_path())

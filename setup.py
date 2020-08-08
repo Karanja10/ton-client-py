@@ -1,4 +1,5 @@
 import setuptools
+from setuptools_rust import Binding, RustExtension, Strip
 
 
 with open("README.md", "r") as fh:
@@ -15,6 +16,12 @@ setuptools.setup(
     url="",
     packages=setuptools.find_packages(),
     include_package_data=True,
+    rust_extensions=[
+        RustExtension(
+            "tonsdk.bin.ton-rust-client", "tonlib/ton_client/client/Cargo.toml",
+            binding=Binding.PyO3, strip=Strip.All)
+    ],
+    zip_safe=False,  # Rust extensions are not zip safe as C-extensions
     classifiers=(
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",

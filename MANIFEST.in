@@ -1,2 +1,3 @@
 graft tonsdk
-
+include tonlib/ton_client/client/Cargo.toml
+include-recursive tonlib/ton_client/client/src/*
